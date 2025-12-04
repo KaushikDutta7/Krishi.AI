@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Krishi.AI — Indian Soil & Crop Guide</title>
+
+  <!-- Google font -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Local CSS -->
+  <link rel="stylesheet" href="ab.css">
+</head>
+<body>
+  <header>
+    <div class="banner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Krishi.AI</h1>
+          <p class="lead">Know your soil • Pick the right crop • Optimize fertilizer</p>
+        </div>
+      </div>
+
+      <nav class="topnav">
+        <button data-page="home">Home</button>
+        <button data-page="soils">Soils</button>
+        <button data-page="crops">Crops</button>
+        <button data-page="states">State Map</button>
+        <button data-page="fert">Fertilizer</button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="search-row card">
+      <input type="search" id="searchBox" placeholder="Search soil type (e.g., Black Soil, Alluvial Soil) or crop/state..." />
+      <button class="btn-primary" id="searchBtn">Search</button>
+    </div>
+
+    <main class="grid">
+      <div>
+        <!-- HOME: informational landing page -->
+        <section id="home" class="card">
+          <h2 style="margin-top:0">Welcome to Krishi.AI</h2>
+          <p class="soil-meta">A practical guide to Indian agriculture — soil types, seasonal cropping, sustainable farming tips and a fertilizer estimator. This landing page focuses on knowledge and best practices; detailed soil and crop datasets are available on the dedicated pages.</p>
+
+          <div class="home-hero" style="margin-top:12px">
+            <div>
+              <h3>About Indian Agriculture</h3>
+              <p style="margin-top:8px;color:var(--muted)">Agriculture in India is diverse — from irrigated rice paddies in the Gangetic plains to rainfed millet fields in the Deccan and plantation crops in the hills. Climatic zones and soils determine what grows best where. Krishi.AI helps you match soil, crop, and fertilizer guidance to local conditions.</p>
+
+              <div class="info-grid">
+                <div class="info-card">
+                  <h4 style="margin:0 0 6px 0">Seasons & Cropping</h4>
+                  <p class="soil-meta" style="margin:0">Kharif (monsoon) • Rabi (winter) • Zaid (summer). Crop selection depends on rainfall, temperature and soil type.</p>
+                </div>
+                <div class="info-card">
+                  <h4 style="margin:0 0 6px 0">Soil Health</h4>
+                  <p class="soil-meta" style="margin:0">Maintain organic matter, prevent erosion, and use balanced N-P-K based on a soil test. Micro-nutrients and pH matter.</p>
+                </div>
+                <div class="info-card">
+                  <h4 style="margin:0 0 6px 0">Sustainability</h4>
+                  <p class="soil-meta" style="margin:0">Crop rotation, intercropping, composting and integrated pest management (IPM) reduce inputs and increase resilience.</p>
+                </div>
+                <div class="info-card">
+                  <h4 style="margin:0 0 6px 0">Irrigation & Water</h4>
+                  <p class="soil-meta" style="margin:0">Use water-efficient practices — drip irrigation, mulching and scheduling to crop needs reduce waste.</p>
+                </div>
+              </div>
+
+              <h3 style="margin-top:14px">Quick Tips for Farmers</h3>
+              <ul style="margin:8px 0 0 18px;color:var(--muted)">
+                <li>Always use locally-recommended seed varieties.</li>
+                <li>Get a soil test before applying fertilizers.</li>
+                <li>Adopt multi-year crop rotation to reduce pests and improve soil.</li>
+                <li>Use organic matter (compost, green manures) to improve structure.</li>
+              </ul>
+
+              <div style="margin-top:12px;display:flex;gap:8px">
+                <button class="btn-primary" onclick="showPage('soils')">Explore Soils</button>
+                <button class="btn-primary accent" onclick="showPage('crops')">Explore Crops</button>
+              </div>
+            </div>
+
+            <aside style="min-width:240px">
+              <div class="card">
+                <h4 style="margin:0 0 8px 0">Tools & Resources</h4>
+                <ul style="padding-left:18px;color:var(--muted);margin:0">
+                  <li><a href="#" onclick="event.preventDefault();showPage('fert')">Fertilizer Calculator</a></li>
+                  <li><a href="#" onclick="event.preventDefault();showPage('states')">State-wise Soil Map</a></li>
+                  <li><a href="#" target="_blank" rel="noopener">Local agri-extension contacts (placeholder)</a></li>
+                </ul>
+              </div>
+
+              <div class="card" style="margin-top:12px">
+                <h4 style="margin:0 0 8px 0">Latest Advice</h4>
+                <p class="soil-meta" style="margin:0">Seasonal updates, pest alerts and market links would appear here (connect to local data feeds to enable).</p>
+              </div>
+            </aside>
+          </div>
+
+          <h3 style="margin-top:18px">Why soil matters</h3>
+          <p class="soil-meta">Soil texture, pH, organic carbon and nutrient availability determine water retention and crop suitability. Use soil testing and extension advice to fine-tune fertilizer and lime application.</p>
+
+        </section>
+
+        <!-- SOILS: full list (data-driven) -->
+        <section id="soils" class="card" style="display:none">
+          <h2>All Soil Types</h2>
+          <div id="soilList"></div>
+        </section>
+
+        <!-- CROPS: full list (data-driven) -->
+        <section id="crops" class="card" style="display:none">
+          <h2>Crops & Details</h2>
+          <div id="cropList"></div>
+        </section>
+
+        <!-- STATES: Map placeholder -->
+        <section id="states" class="card" style="display:none">
+          <h2>State-wise Soil Map</h2>
+          <div style="margin:12px 0" class="states-map card" id="statesMap">[Interactive map placeholder — will use SVG or Leaflet]</div>
+          <div id="statesButtons" style="margin-top:12px"></div>
+        </section>
+
+        <!-- FERT: fertilizer calculator -->
+        <section id="fert" class="card" style="display:none">
+          <h2>Fertilizer Calculator</h2>
+          <p class="soil-meta">Choose soil type and crop to get a suggested N-P-K requirement per hectare (approx.)</p>
+          <div style="margin-top:12px">
+            <div style="display:flex;gap:8px;margin-bottom:10px">
+              <select id="fertSoil"></select>
+              <select id="fertCrop"></select>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input type="number" id="area" placeholder="Area in hectares" value="1" min="0.01" step="0.01" style="flex:0.6;padding:10px;border-radius:8px;border:1px solid #e6f2ea" />
+              <button class="btn-primary" id="calcBtn">Calculate</button>
+            </div>
+            <div id="fertResult" style="margin-top:12px"></div>
+          </div>
+        </section>
+      </div>
+
+      <aside>
+        <div class="card">
+          <h3>Search Results</h3>
+          <div id="results">No search yet.</div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <h3>Soil Tags</h3>
+          <div class="tags" id="soilTags"></div>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <div>© Krishi.AI — Built with ❤️ • Data sample only</div>
+        <div class="social">Follow: <a href="#">Twitter</a> <a href="#">LinkedIn</a> <a href="#">GitHub</a></div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Local JS (defer ensures DOM is ready) -->
+  <script src="abc.js" defer></script>
+</body>
+</html>
